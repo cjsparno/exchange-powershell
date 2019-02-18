@@ -1,0 +1,34 @@
+# Get Details about all mailboxes
+
+Get-mailbox | get-MailboxStatistics
+
+# Get a list of all mailboxes that haven’t been logged into during the last 30 days
+
+Get-Mailbox –RecipientType 'UserMailbox' | Get-MailboxStatistics | Sort-Object LastLogonTime | Where {$_.LastLogonTime –lt ([DateTime]::Now).AddDays(-30) } | Format-Table DisplayName, LastLogonTime
+
+# Get a report on the highest volume senders and recipients
+
+Get-MailTrafficTopReport
+
+# Get a report on all groups and their members
+
+function Get-AllO365Members
+{
+    Try
+    {   
+     $O365Groups=Get-UnifiedGroup
+        foreach ($O365Group in $O365Groups) 
+        { 
+            Write-Host "Group Membership: " $O365Group.DisplayName -ForegroundColor Green
+            Get-UnifiedGroupLinks –Identity $O365Group.Identity –LinkType Members
+            Write-Host
+        } 
+    }
+    catch [System.Exception]
+    {
+        Write-Host -ForegroundColor Red $_.Exception.ToString()   
+    } 
+}
+Get-AllO365Members
+
+# Note that most of the reporting cmdlets were deprecated in January 2018 and replaced by the new MS Graph Reporting API. Therefore, some reports are now available only in the Office 365 Security & Compliance Center.
