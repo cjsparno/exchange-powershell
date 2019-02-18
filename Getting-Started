@@ -28,3 +28,7 @@ Import-PSSession $O365
 Connect-MsolService –Credential $O365
 
 # Once we have imported the modules for Windows PowerShell, we are ready to manage our Office 365 instance.
+
+# to get a list of all available cmdlets
+
+Get-Command -module MSOnline
