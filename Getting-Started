@@ -1,0 +1,30 @@
+# Connecting to an Office 365 instance with PowerShell
+
+# First, install the Office 365 module for Windows PowerShell and connect to the Office 365 instance. Take the following steps:
+
+# Download and install the Microsoft Online Services Sign-In Assistant for IT Professionals RTW.
+
+https://www.microsoft.com/en-us/download/details.aspx?id=41950
+
+# Import the Online Services PowerShell module for Microsoft Azure Active Directory and Office 365:
+
+Install-Module -Name AzureAD
+Install-Module -Name MSOnline
+
+# Enter your Office 365 admin credentials:
+
+$Cred = Get-Credential
+
+# Create a remote PowerShell session:
+
+$O365 = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $Cred -Authentication Basic -AllowRedirection
+
+# Import the session commands into the local Windows PowerShell session:
+
+Import-PSSession $O365
+
+# Connect to all Office 365 services:
+
+Connect-MsolService –Credential $O365
+
+# Once we have imported the modules for Windows PowerShell, we are ready to manage our Office 365 instance.
