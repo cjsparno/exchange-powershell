@@ -1,0 +1,25 @@
+# Get a list of all Office 365 users
+
+Get-MsolUser | Select DisplayName, City, Department, ObjectID
+
+# See the number of account licenses
+
+Get-MsolAccountSku
+
+# List available services in our tenant
+
+Get-MsolAccountSku | select -ExpandProperty ServiceStatus
+
+# Create a new user (change enterprise.onmicrosoft.com to name of our tenant)
+
+New-MsolUser -UserPrincipalName JSmith@enterprise.onmicrosoft.com -DisplayName "John Smith"  -FirstName “John” -LastName “Smith”
+
+# To remove a user from everywhere
+
+Get-SPOSite | ForEach {Remove-SPOUser -Site $_.Url -LoginName " JSmith@enterprise.onmicrosoft.com"}
+
+# Change a password
+# You can either specify a new password as in the example below, or omit the -NewPassword parameter to have the system automatically generate a random password
+
+Set-MsolUserPassword -UserPrincipalName JSmith@netwrixqcspa.onmicrosoft.com -NewPassword P@SSw0rd!
+
